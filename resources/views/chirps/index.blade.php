@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ asset('css/style.css')}}">
+
 <x-app-layout>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         <form method="POST" action="{{ route('chirps.store') }}">
@@ -50,10 +52,35 @@
                                 </x-dropdown>
                             @endif
                         </div>
-                        <p class="mt-4 text-lg text-gray-900">{{ $chirp->message }}</p>
-                    </div>
+                            <p class="mt-4 text-lg text-gray-900">{{ $chirp->message }}</p>
+                            <!-- Trigger/Open The Modal -->
+                            <x-secondary-button id="myBtn">Reaction</x-secondary-button>
+
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+
+                              <!-- Modal content -->
+                              <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <form method="POST" action="{{ route('reacts.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                    <textarea
+                                        name="message"
+                                        placeholder="{{ __('What\'s your reaction?') }}"
+                                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    >{{ old('message') }}</textarea>
+                                    <x-input-error :messages="$errors->get('message')" class="mt-2" />
+                                    <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
+                                </form>
+                              </div>
+                            
+                            </div>
+                            
+                        </div>
                 </div>
             @endforeach
         </div>
     </div>
 </x-app-layout>
+
+<script src="{{ asset('scripts/script.js')}}"></script>
